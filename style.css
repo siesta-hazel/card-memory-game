@@ -1,0 +1,183 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    background: linear-gradient(135deg, #1a2745 0%, #2a2a5e 50%, #131c3a 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-info {
+    flex: 1;
+    text-align: center;
+    background: rgba(15, 25, 45, 0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 40px;
+    padding: 2rem 1.8rem;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFD966;
+    transition: transform 0.2s ease;
+}
+
+.game-info:hover {
+    transform: translateY(-4px);
+}
+
+.game-info h1 {
+    font-size: 2.2rem;
+    background: #FFD966;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.game-info div {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 60px;
+    padding: 0.8rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFD966;
+}
+
+.game-info span {
+    font-size: 2rem;
+    color: #FFD966;
+    font-weight: 800;
+}
+
+.game-info p {
+    color: #FFD966;
+    margin-top: 1rem;
+}
+
+.game-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1000px;
+    width: 100%;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.memory-game {
+    width: 550px;
+    height: 550px;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    perspective: 1000px;
+}
+
+.memory-card {
+    width: calc(25% - 10px);
+    height: calc(25% - 10px);
+    margin: 5px;
+    position: relative;
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform .5s;
+}
+
+.memory-card:active {
+    transform: scale(.97);
+    transition: transform .2s;
+}
+
+.memory-card:hover {
+    transform: translateY(-2px);
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.front-face, .back-face {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    border-radius: 5px;
+    background: black;
+    border: .2px solid #FFD966;
+    backface-visibility: hidden;
+}
+
+.front-face {
+    background: #F5F5DF;
+    transform: rotateY(180deg);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.message-card {
+    background: linear-gradient(135deg, #1e2a3a, #0f172a);
+    border-radius: 30px;
+    padding: 2rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 215, 150, 0.5);
+    max-width: 90%;
+    width: 400px;
+}
+
+.message-card h2 {
+    color: #FFD966;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.message-card p {
+    color: #e0e0e0;
+    font-size: 1.2rem;
+    margin-bottom: 1.8rem;
+}
+
+.message-card button {
+    background: #FFD966;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+    color: #1a1a2e;
+}
+
+.message-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-card button:hover {
+    background: #ff9f1a;
+    transform: scale(1.02);
+}
+
+.hidden {
+    display: none;
+}

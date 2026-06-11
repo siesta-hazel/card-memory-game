@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="win-overlay" class="overlay hidden">
+        <div class="message-card">
+            <h2>Congratulations!</h2>
+            <p>You matched all 8 pairs!</p>
+            <div class="message-buttons">
+                <button id="close-overlay" onclick="location.reload()">Play Again</button>
+                <button id="close-overlay" onclick="winOverlay.classList.add('hidden')">Play Later</button>
+            </div>
+        </div>
+    </div>
+    <div class="game-container">
+        <div class="game-info">
+            <h1>Flip the Card</h1>
+            <div>
+                Matches: <span id="match-count">0</span> / <span id="total-pairs" >8</span>
+            </div>
+            <p id="game-info-p" class="hidden">Refresh to play again!</p>
+        </div>
+        <section class="memory-game">
+            <div class="memory-card" data-card="dragon">
+                <img src="images/dragon.png" class="front-face" alt="Dragon">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="dragon">
+                <img src="images/dragon.png" class="front-face" alt="Dragon">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="gargoyle">
+                <img src="images/gargoyle.png" class="front-face" alt="Gargoyle">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="gargoyle">
+                <img src="images/gargoyle.png" class="front-face" alt="Gargoyle">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="kappa">
+                <img src="images/kappa.png" class="front-face" alt="Kappa">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="kappa">
+                <img src="images/kappa.png" class="front-face" alt="Kappa">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="kitsune">
+                <img src="images/kitsune.png" class="front-face" alt="Kitsune">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="kitsune">
+                <img src="images/kitsune.png" class="front-face" alt="Kitsune">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="manticore">
+                <img src="images/manticore.png" class="front-face" alt="Manticore">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="manticore">
+                <img src="images/manticore.png" class="front-face" alt="Manticore">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="nisse">
+                <img src="images/nisse.png" class="front-face" alt="Nisse">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="nisse">
+                <img src="images/nisse.png" class="front-face" alt="Nisse">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="phoenix">
+                <img src="images/phoenix.png" class="front-face" alt="Phoenix">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="phoenix">
+                <img src="images/phoenix.png" class="front-face" alt="Phoenix">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="unicorn">
+                <img src="images/unicorn.png" class="front-face" alt="Unicorn">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+            <div class="memory-card" data-card="unicorn">
+                <img src="images/unicorn.png" class="front-face" alt="Unicorn">
+                <img src="images/feather.png" class="back-face" alt="Back">
+            </div>
+        </section>
+    </div>
+    <script>
+        const cards = document.querySelectorAll('.memory-card');
+
+        let hasFlippedCard = false;
+        let firstCard, secondCard;
+        let lockBoard = false;
+        let matches = 0;
+        const matchCountSpan = document.getElementById('match-count');
+        const totalPairsSpan = document.getElementById('total-pairs');
+        const totalPairs = 8;
+        totalPairsSpan.textContent = totalPairs;
+        const winOverlay = document.getElementById('win-overlay')
+        const gameInfoP = document.getElementById('game-info-p')
+        
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+            this.classList.toggle('flip');
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+            }
+            else {
+                hasFlippedCard = false;
+                secondCard = this;
+
+                checkForMatch();
+            }
+        }
+
+        function checkForMatch(){
+            if(firstCard.dataset.card === secondCard.dataset.card){
+                disableCards();
+                matches += 1;
+                matchCountSpan.textContent = matches;
+                if (matches === totalPairs){
+                    // setTimeout(() => alert("You won! Refresh to play again!"), 100);
+                    winOverlay.classList.remove('hidden')
+                    gameInfoP.classList.remove('hidden')
+                }
+            }
+            else {
+                unFlipCards();
+            }
+        }
+
+        function disableCards(){
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            resetBoard();
+        }
+
+        function unFlipCards(){
+            lockBoard = true
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard(){
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        (function shuffle() {
+            cards.forEach(card => {
+                let randomPos = Math.floor(Math.random() * 12);
+                card.style.order = randomPos;
+            });
+        })();
+        matchCountSpan.textContent = matches;
+        cards.forEach(card => card.addEventListener('click', flipCard))
+    </script>
+</body>
+</html>
