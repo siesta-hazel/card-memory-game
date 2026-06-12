@@ -1,5 +1,0 @@
-services:
-  - type: web
-    name: my-free-static-site
-    env: static
-    plan: free
