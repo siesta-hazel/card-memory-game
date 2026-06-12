@@ -71,8 +71,9 @@ body {
 }
 
 .memory-game {
-    width: 550px;
-    height: 550px;
+    width: 100%;
+    max-width: 550px;
+    aspect-ratio: 1/1;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
